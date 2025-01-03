@@ -1,44 +1,13 @@
-# ZE08-CH2O For ESPHome
-ZE08-CH2O
+# ZE08-CH2O-1024 For ESPHome
+## 解决ZE08-CH2O显示1024的问题
 
-| Name      |    State    | Actions |
-| :-------- | :---------: | :------ |
-| ZE08 CH2O | 0.020 mg/m3 |         |
-|           |             |         |
+miwyf大佬的ZE08-CH2O驱动是根据炜盛模块的应答命令写的，而淘宝大量便宜模块跟炜盛的应答命令格式不一样，所以会一直显示1024。
 
-1.Copy ze08-ch2o.h to ESPHome config includes/
+经过反复比对后，我让AI帮我修改了大佬的代码，目前可以正常显示甲醛浓度。
+最大量程待完成。
 
-2.Copy this code to your_esphome.yaml
 
-```yaml
-#esphome.yaml
-esphome:
-  includes:
-    - includes/ze08-ch2o.h
-uart:
-  - id: uart_ze08
-    tx_pin: 5
-    rx_pin: 18
-    baud_rate: 9600
-custom_component:
-  - lambda: |-
-      auto ze08 = new WinsenZE08Sensor(id(uart_ze08), id(ze08_ch2o));
-      App.register_component(ze08);
-      return {ze08};
-sensor:
-  - platform: template
-    name: "${friendly_name} ZE08 CH2O"
-    id: ze08_ch2o
-    #unit_of_measurement: ppb
-    #accuracy_decimals: 0
-    unit_of_measurement: mg/m3
-    accuracy_decimals: 3
-    filters:
-      - multiply: 0.001  
-```
-
-## 相关链接
-
+- [ZE08-CH2O For ESPHome](https://github.com/miwyf/ze08-ch2o-esphome)
 - [大金空气传感器教程,参考娄佬的教程](https://github.com/louliangsheng/daikin-air-sensor)
 - [奋斗大佬的PM2005(PM2105)库文件](https://github.com/nixieclock)
 - [CO2 cm1106库文件](https://github.com/LeoDJ/ESPHome_Nodes)
