@@ -75,8 +75,16 @@ class WinsenZE08Sensor : public PollingComponent, public UARTDevice {
       // message of 9 bytes, same reading two units:
       //       ug/m3            ppb
       // st cm high low res res high low ch
-      unsigned short concentration_ugm3 = (buf[2] << 8) | buf[3];
-      unsigned short concentration_ppb = (buf[6] << 8) | buf[7];
+      // unsigned short concentration_ugm3 = (buf[2] << 8) | buf[3];
+      // unsigned short concentration_ppb = (buf[6] << 8) | buf[7];
+      uint8_t decimal_place = buf[3];  // 小数位数
+      unsigned short concentration_ugm3 = (buf[4] << 8) | (buf[5]);
+
+      float concentration = concentration_ugm3 * 1.0f;  // 先转成 float
+      for (int i = 0; i < decimal_place; i++) {
+        concentration /= 10.0f;
+      }
+      
       #ifdef  ZE08_DEBUG
       ESP_LOGD(TAGZE08, "buf0=%02X, buf1=%02X, buf2=%02X, buf3=%02X, buf4=%02X, buf5=%02X, buf6=%02X, buf7=%02X, buf8=%02X", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7], buf[8]);
       ESP_LOGD(TAGZE08, "Received %d %d.", concentration_ugm3, concentration_ppb);
