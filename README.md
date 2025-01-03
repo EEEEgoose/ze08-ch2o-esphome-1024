@@ -5,6 +5,7 @@ miwyf大佬的ZE08-CH2O驱动是根据炜盛模块的应答命令写的，而淘
 
 经过反复比对后，我让AI帮我修改了大佬的代码，目前可以正常显示甲醛浓度。
 最大量程待完成。
+校准功能待完成。
 
 
 - [ZE08-CH2O For ESPHome](https://github.com/miwyf/ze08-ch2o-esphome)
